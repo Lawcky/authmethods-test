@@ -59,6 +59,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::STRING)]
     private ?string $password = null;
 
+    // ... Dans App\Entity\User.php
+    #[ORM\Column(type: 'string', nullable: true)]
+    private ?string $githubId = null;
+
+    public function getGithubId(): ?string
+    {
+        return $this->githubId;
+    }
+
+    public function setGithubId(?string $githubId): self
+    {
+        $this->githubId = $githubId;
+        return $this;
+    }
+
+
     /**
      * @var string[]
      */

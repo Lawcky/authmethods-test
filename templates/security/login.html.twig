@@ -43,6 +43,10 @@
                         <button type="submit" class="btn btn-primary">
                             <twig:ux:icon name="tabler:login"/> {{ 'action.sign_in'|trans }}
                         </button>
+
+                        <a href="{{ path('connect_github') }}" class="btn btn-dark mt-3">
+                            <i class="fab fa-github"></i> Se connecter avec GitHub
+                        </a>
                     </fieldset>
                 </form>
             </div>

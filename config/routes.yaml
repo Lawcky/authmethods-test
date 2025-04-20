@@ -17,3 +17,7 @@ controllers:
     prefix: /{_locale}
     defaults:
         _locale: '%app.locale%'
+        
+github_callback:
+    path: /connect/github/callback
+    controller: App\Controller\SecurityController::githubCallback
