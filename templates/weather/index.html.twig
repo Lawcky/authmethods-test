@@ -3,12 +3,119 @@
 {% block title %}Météo du jour{% endblock %}
 
 {% block body %}
-    <h1>{{ 'help.browse_meteo-1'|trans|raw }}</h1>
-    <ul>
-        <li>🌡 {{ 'help.temperature'|trans|raw }} : {{ weather.main.temp }} °C</li>
-        <li>☁️ {{ 'help.condition'|trans|raw }} : {{ weather.weather[0].description }}</li>
-        <li>💧 {{ 'help.humidity'|trans|raw }} : {{ weather.main.humidity }} %</li>
-        <li>🔽 <strong>Min</strong> : {{ weather.main.temp_min }} °C</li>
-        <li>🔼 <strong>Max</strong> : {{ weather.main.temp_max }} °C</li>
-    </ul>
+
+<style>
+    .container {
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+    }
+
+    .weather-info {
+        flex: 1;
+        max-width: 30%;
+    }
+
+    .weather-info h1 {
+        font-size: 24px;
+    }
+
+    .weather-info ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .weather-info li {
+        margin-bottom: 10px;
+        font-size: 18px;
+    }
+
+    #map {
+        flex: 2;
+        height: 500px;
+        max-width: 65%;
+    }
+</style>
+
+<div class="container">
+
+    <div class="weather-info">
+        <h1>{{ 'help.browse_meteo-1'|trans|raw }}</h1>
+        <ul>
+            <li>🌡 {{ 'help.temperature'|trans|raw }} : {{ weather.main.temp }} °C</li>
+            <li>☁️ {{ 'help.condition'|trans|raw }} : {{ weather.weather[0].description }}</li>
+            <li>💧 {{ 'help.humidity'|trans|raw }} : {{ weather.main.humidity }} %</li>
+            <li>🔽 <strong>Min</strong> : {{ weather.main.temp_min }} °C</li>
+            <li>🔼 <strong>Max</strong> : {{ weather.main.temp_max }} °C</li>
+        </ul>
+    </div>
+
+    <div id="map"></div>
+
+</div>
+    
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
+    
+<script> 
+
+const apiKey = '6f4f080bf9916dd91c360d09e7a663da';
+
+const map = L.map('map').setView([48.8566, 2.3522], 6);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution:
+        '&copy; OpenStreetMap contributors',
+}).addTo(map);
+
+const tempLayer = L.tileLayer(
+    `https://tile.openweathermap.org/map/temp_new/{z}/{x}/{y}.png?appid=${apiKey}`,
+    { opacity: 1 }
+).addTo(map);
+
+const precipLayer = L.tileLayer(
+    `https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=${apiKey}`,
+    { opacity: 1 }
+).addTo(map);
+
+const cloudsLayer = L.tileLayer(
+    `https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=${apiKey}`,
+    { opacity: 1 }
+).addTo(map);
+ 
+ 
+const baseMaps = {
+    "OpenStreetMap": L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png')
+};
+
+const overlayMaps = {
+    "Température": tempLayer,
+    "Précipitations": precipLayer,
+    "Nuages": cloudsLayer
+};
+
+L.control.layers(baseMaps, overlayMaps).addTo(map);
+ 
+
+const cities = ['Paris', 'Lyon', 'Marseille', 'Toulouse', 'Nice', 'Tokyo', 'Rennes', 'Nantes', 'Nancy', 'Bordeaux', 'Clermont-Ferrand', 'Pau', 'Gien'];
+
+cities.forEach(city => {
+  fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`)
+    .then(response => response.json())
+    .then(data => {
+      const lat = data.coord.lat;
+      const lon = data.coord.lon;
+      const temp = data.main.temp;
+
+      const marker = L.marker([lat, lon]).addTo(map);
+      marker.bindTooltip(`${city}: ${temp}°C`, { permanent: true, direction: 'top' });
+    });
+});
+
+</script>
+    
 {% endblock %}

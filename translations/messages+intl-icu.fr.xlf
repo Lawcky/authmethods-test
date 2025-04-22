@@ -377,7 +377,7 @@
             </trans-unit>
             <trans-unit id="help.browse_meteo">
                 <source>help.browse_meteo</source>
-                <target><![CDATA[Récupéré <strong>La Météo</strong> de Paris.]]></target>
+                <target><![CDATA[Voir la <strong>La Météo de Paris</strong> en directe sur notre site.]]></target>
             </trans-unit>
                         <trans-unit id="help.browse_meteo-1">
                 <source>help.browse_meteo-1</source>
