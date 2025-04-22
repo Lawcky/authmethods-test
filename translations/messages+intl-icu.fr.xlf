@@ -375,6 +375,29 @@
                 <source>help.browse_app</source>
                 <target><![CDATA[Parcourir la <strong>section publique</strong> de l'application de démonstration.]]></target>
             </trans-unit>
+            <trans-unit id="help.browse_meteo">
+                <source>help.browse_meteo</source>
+                <target><![CDATA[Récupéré <strong>La Météo</strong> de Paris.]]></target>
+            </trans-unit>
+                        <trans-unit id="help.browse_meteo-1">
+                <source>help.browse_meteo-1</source>
+                <target><![CDATA[<strong>Météo de Paris</strong>]]></target>
+            </trans-unit>
+
+            <trans-unit id="help.temperature">
+                <source>help.temperature</source>
+                <target><![CDATA[<strong>Température</strong>]]></target>
+            </trans-unit>
+            <trans-unit id="help.condition">
+                <source>help.condition</source>
+                <target><![CDATA[<strong>Conditions</strong>]]></target>
+            </trans-unit>
+            <trans-unit id="help.humidity">
+                <source>help.humidity</source>
+                <target><![CDATA[<strong>Humidité</strong>]]></target>
+            </trans-unit>
+
+
             <trans-unit id="help.browse_admin">
                 <source>help.browse_admin</source>
                 <target><![CDATA[Parcourir l'<strong>interface d'administration</strong> de l'application de démonstration.]]></target>

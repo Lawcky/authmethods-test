@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Météo du jour{% endblock %}
+
+{% block body %}
+    <h1>{{ 'help.browse_meteo-1'|trans|raw }}</h1>
+    <ul>
+        <li>🌡 {{ 'help.temperature'|trans|raw }} : {{ weather.main.temp }} °C</li>
+        <li>☁️ {{ 'help.condition'|trans|raw }} : {{ weather.weather[0].description }}</li>
+        <li>💧 {{ 'help.humidity'|trans|raw }} : {{ weather.main.humidity }} %</li>
+        <li>🔽 <strong>Min</strong> : {{ weather.main.temp_min }} °C</li>
+        <li>🔼 <strong>Max</strong> : {{ weather.main.temp_max }} °C</li>
+    </ul>
+{% endblock %}

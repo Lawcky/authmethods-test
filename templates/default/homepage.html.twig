@@ -30,7 +30,6 @@
                 </p>
             </div>
         </div>
-
         <div class="col-sm">
             <div class="jumbotron">
                 <p>
@@ -39,6 +38,18 @@
                 <p>
                     <a class="btn btn-primary btn-lg" href="{{ path('admin_index') }}">
                         <twig:ux:icon name="tabler:lock"/> {{ 'action.browse_admin'|trans }}
+                    </a>
+                </p>
+            </div>
+        </div>
+         <div class="col-sm">
+            <div class="jumbotron">
+                <p>
+                    {{ 'help.browse_meteo'|trans|raw }}
+                </p>
+                <p>
+                    <a class="btn btn-primary btn-lg" href="{{ path('weatherpage') }}">
+                        <twig:ux:icon name="tabler:lock"/> {{ 'help.browse_meteo-1'|trans|raw }}
                     </a>
                 </p>
             </div>
