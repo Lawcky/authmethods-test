@@ -9,7 +9,27 @@
 {% block header %}{% endblock %}
 {% block footer %}{% endblock %}
 
+
+
 {% block body %}
+
+<style>
+
+.alert-error {
+    color: red;
+    font-size: large;
+}
+
+</style>
+
+{% for label, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="alert alert-{{ label }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endfor %}
+
     <div class="page-header">
         <h1>{{ 'title.homepage'|trans|raw }}</h1>
 

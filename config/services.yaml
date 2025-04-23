@@ -28,6 +28,8 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+        autowire: true
+        autoconfigure: true
 
     App\Service\WeatherService: ~
 
