@@ -1,88 +1,37 @@
-Symfony Demo Application
-========================
+Authentification Methodo TP  
+========================  
 
-The "Symfony Demo Application" is a reference application created to show how
-to develop applications following the [Symfony Best Practices][1].
+Fork de l'application démo Symfony pour le projet Methodo d'application  
 
-You can also learn about these practices in [the official Symfony Book][5].
+Étapes  
+------------  
+- Création et utilisation du Codespace pour tout le développement et les commits/push  
+- Ajout de la connexion OAuth2 par GitHub en utilisant **league/oauth2-server-bundle**  
+- GitHub passe par le MFA, les deux solutions sont donc implémentées.  
+- Ajout d'une page météo avec l'API OpenWeatherMap  
 
-Requirements
-------------
+3 variables d'environnement sont nécessaires pour faire fonctionner le tout : une identification d'application GitHub OAuth2 avec l'ID client et sa clé secrète, ainsi que la clé d'API OpenWeatherMap.  
 
-  * PHP 8.2.0 or higher;
-  * PDO-SQLite PHP extension enabled;
-  * and the [usual Symfony application requirements][2].
+Le seul moyen de connexion est l'OAuth2 par GitHub pour le panneau admin, les routes menant à la connexion par mot de passe ont été retirées.
 
-Installation
-------------
+Modifications apportées pour l'OAuth2 par GitHub :  
+- config/packages/security.yaml  # Ajout des information Github Authenticator
+- config/routes.yaml  # Ajout des routes de connexion vers Github
+- src/Controller/SecurityController.php  # Ajout du controleur de sécurité 
+- src/Entity/User.php  # Ajout du Github ID sur le profile utilisateur pour les connexions
+- src/Security/GitHubAuthenticator.php  # Ajout du code de connexion à Github
+- src/Security/GitHubEntryPoint.php  # Ajout de l'entrypoint pour initié la connexion
+- templates/security/login.html.twig  # template pour l'affichage
 
-There are 3 different ways of installing this project depending on your needs:
+Modifications apportées pour l'OpenWeatherAPI :  
+- src/Controller/WeatherController.php  # controleur du Weather
+- src/Service/WeatherService.php  # code pour appeler l'api
+- config/services.yaml  # ajout du service
+- public/weatherservice.php  
+- templates/default/homepage.html.twig  # ajout de la page sur l'affichage de base
+- templates/weather/index.html.twig  # template pour l'affichage météo
+- translations/messages+intl-icu.en.xlf  # language anglais pour la météo
+- translations/messages+intl-icu.fr.xlf  # language français pour la météo
 
-**Option 1.** [Download Symfony CLI][4] and use the `symfony` binary installed
-on your computer to run this command:
-
-```bash
-symfony new --demo my_project
-```
-
-**Option 2.** [Download Composer][6] and use the `composer` binary installed
-on your computer to run these commands:
-
-```bash
-# you can create a new project based on the Symfony Demo project...
-composer create-project symfony/symfony-demo my_project
-
-# ...or you can clone the code repository and install its dependencies
-git clone https://github.com/symfony/demo.git my_project
-cd my_project/
-composer install
-```
-
-**Option 3.** Click the following button to deploy this project on Platform.sh,
-the official Symfony PaaS, so you can try it without installing anything locally:
-
-<p align="center">
-<a href="https://console.platform.sh/projects/create-project?template=https://raw.githubusercontent.com/symfonycorp/platformsh-symfony-template-metadata/main/symfony-demo.template.yaml&utm_content=symfonycorp&utm_source=github&utm_medium=button&utm_campaign=deploy_on_platform"><img src="https://platform.sh/images/deploy/lg-blue.svg" alt="Deploy on Platform.sh" width="180px" /></a>
-</p>
-
-Usage
------
-
-There's no need to configure anything before running the application. There are
-2 different ways of running this application depending on your needs:
-
-**Option 1.** [Download Symfony CLI][4] and run this command:
-
-```bash
-cd my_project/
-symfony serve
-```
-
-Then access the application in your browser at the given URL (<https://localhost:8000> by default).
-
-**Option 2.** Use a web server like Nginx or Apache to run the application
-(read the documentation about [configuring a web server for Symfony][3]).
-
-On your local machine, you can run this command to use the built-in PHP web server:
-
-```bash
-cd my_project/
-php -S localhost:8000 -t public/
-```
-
-Tests
------
-
-Execute this command to run tests:
-
-```bash
-cd my_project/
-./bin/phpunit
-```
-
-[1]: https://symfony.com/doc/current/best_practices.html
-[2]: https://symfony.com/doc/current/setup.html#technical-requirements
-[3]: https://symfony.com/doc/current/setup/web_server_configuration.html
-[4]: https://symfony.com/download
-[5]: https://symfony.com/book
-[6]: https://getcomposer.org/
+Modifications tierces :  
+- Ajout de assets/styles/bootswatch/$web-font-path pour corriger un problème lié au CSS.  
