@@ -1,5 +1,6 @@
 name: DevSecOps CI/CD
 
+
 on:
   push:
     branches: [ "main" ]
@@ -41,4 +42,3 @@ jobs:
       run: |
         php bin/console doctrine:schema:create --env=test
         ./vendor/bin/phpunit
-        
