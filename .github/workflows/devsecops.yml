@@ -1,0 +1,43 @@
+name: DevSecOps CI/CD
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-test-analyse:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mariadb:10.5
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: symfony
+        ports: ['3306:3306']
+        options: --health-cmd="mysqladmin ping --silent" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.1'
+        extensions: mbstring, pdo, pdo_mysql, intl, zip
+
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress
+
+    - name: Run static analysis (PHPStan)
+      run: vendor/bin/phpstan analyse src --level=max
+
+    - name: Run unit tests (PHPUnit)
+      env:
+        DATABASE_URL: "mysql://root:root@127.0.0.1:3306/symfony"
+      run: |
+        php bin/console doctrine:schema:create --env=test
+        ./vendor/bin/phpunit
